@@ -43,6 +43,7 @@ class UI {
         container.insertBefore(div, form);
         setTimeout(() => document.querySelector('#alert').remove(), 3000);
 
+
     }
         static clearFields () {
         document.querySelector('#title').value= '';
@@ -90,15 +91,18 @@ document.querySelector('#book-form').addEventListener('submit',(e) =>
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
     const isbn = document.querySelector('#isbn').value;
-    if(title === '' || isbn === '' || author === '') {
+    if((title === '' || isbn === '' || author === '')&& !(document.querySelector('#alert'))) {
         UI.ShowAlert('Doldur kizdirma', 'warning')
+        
+        
     }
-    else {
+    else if (!(title === '' || isbn === '' || author === '')&& !(document.querySelector('#alert'))){
         const book = new Book(title, author, isbn);
         UI.addBookToList(book); 
         Store.addBook(book);
         UI.ShowAlert('Yola gelecen aferin', 'success');
         UI.clearFields();
+      
         
 
        
@@ -106,8 +110,8 @@ document.querySelector('#book-form').addEventListener('submit',(e) =>
 });
 document.querySelector('#book-list').addEventListener('click', (e) => {
     Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
-    
+     
     UI.deleteBook(e.target);
-    
-    UI.ShowAlert('Yazik keşke silmeseydin', 'success');
+    if (!(document.querySelector('#alert')))
+    {UI.ShowAlert('Yazik keşke silmeseydin', 'success');}
 })
